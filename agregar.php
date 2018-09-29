@@ -27,7 +27,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-  <title>buscar</title>
+  <title>Agregar</title>
 </head>
 <body>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-outo text-center">
