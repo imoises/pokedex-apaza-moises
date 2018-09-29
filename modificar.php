@@ -11,10 +11,6 @@
     die("fallo la coneccion ".$conn->connect_error);
   }
 
-  if (isset($_POST['btnAgregar'])) {
-    header("location: agregar.php");
-  }
-
 ?>
 
 
@@ -37,41 +33,53 @@
   </div>
 
   <div class="container">
-    <form action="modificar.php" method="POST">
-      <div class="input-group row">
-        <div class="input-group col-sm-8"">
-        	<a href="index.php" class="btn btn-outline-success">Regresar</a>
-        </div>
-      </div>
-    </form>
+  	<form action="agregar.php" method="POST" class="container">
+  		<div class="form-group">
+  			<label for="formGroupExampleInput">Nombre</label>
+  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" placeholder="Pikachu">
+  		</div>
+  		<div class="form-group">
+  			<label for="formGroupExampleInput2">Tipo</label>
+  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" placeholder="Link de imaen PNG">
+  		</div>
+  		<div class="form-group">
+  			<label for="formGroupExampleInput2">Imagen</label>
+  			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" placeholder="Link de imagen PNG">
+  		</div>
+  		<div class="form-group">
+  			<label for="formGroupExampleInput2">Genero</label>
+  			<input type="text" name="genero" class="form-control" id="formGroupExampleInput2" placeholder="Link de imagen PNG">
+  		</div>
+  		<input type="submit" class="btn btn-primary" name="btnAgregar" value="Agregar">
+  		<a href="index.php" class="btn btn-outline-dark">Regresar</a>
+  	</form>
+
+  </div>
 
 
-    <div class="text-center"> _____________________ </div>
+
+  <?php 
+		if (isset($_POST['btnAgregar'])) {
+
+		  	$nombre = $_POST['nombre'];
+		  	$tipo = $_POST['tipo'];
+		  	$imagen = $_POST['img'];
+		  	$genero = $_POST['genero'];
 
 
-    <?php 
-      
-		$sql = "Select * from pokemon;";
-		$result = $conn->query($sql);
-		while ($rows = $result->fetch_assoc()) {
-                echo "<div>_</div>
-                  <div class='row justify-content-md-center'>
-                    <div class='col col-lg-2 p-3 mb-2 bg-secondary text-white'>".
-                      "<img src=".$rows['imagen']." width=150px height=150px>" .
-                    "</div>
-                    <div class='col-md-auto p-3 mb-2 bg-primary text-white'>".
-                      $rows['nombre'].
-                      "<br><img src=".$rows['tipo']." width=60px height=30px>".
-                      "<br><img src=".$rows['genero']." width=30px height=30px>"."
-                    </div>
-                    <div class='col col-lg-1 p-2 mb-2 text-white'>".
-                      "<br><a href='modificar.php?pokemon=".$rows['nombre']."'"." class='btn btn-danger btn-sm'>Modificar</a>".
-                    "</div>
-                  </div>";
+		  	$sql = "INSERT INTO pokemon (nombre, tipo, genero, imagen) values ('$nombre','$tipo','$genero','$imagen');";
+        if ($nombre!="") {
+  		  	$conn->query($sql);
+  		  	echo "<script> alert('Se agrego son exito!');</script>";   
         }
+	  	}
 
-      $conn->close();
-      ?>
+	 	if (isset($_POST["btnRegresar"])) {
+	  		header("location:index.php");
+  		}
+
+  		$conn->close();
+  ?>
 
 
     
