@@ -11,6 +11,18 @@
     die("fallo la coneccion ".$conn->connect_error);
   }
 
+  if (isset($_GET['pokemon'])) {
+  	$pokemon = $_GET['pokemon'];
+  	$sql = "select * from pokemon where nombre='$pokemon';";
+  	$result = $conn->query($sql);
+  	while ($rows = $result->fetch_assoc()) {
+  		$imagen = $rows['imagen'];
+  		$nombre = $rows['nombre'];
+  		$tipo = $rows['tipo'];
+  		$genero = $rows['genero'];
+  	}
+  }
+
 ?>
 
 
@@ -25,7 +37,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-  <title>buscar</title>
+  <title>Modificar</title>
 </head>
 <body>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-outo text-center">
@@ -33,24 +45,24 @@
   </div>
 
   <div class="container">
-  	<form action="agregar.php" method="POST" class="container">
+  	<form action="modificar.php" method="POST" class="container">
   		<div class="form-group">
   			<label for="formGroupExampleInput">Nombre</label>
-  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" placeholder="Pikachu">
+  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" value="<?php echo($nombre); ?>">
   		</div>
   		<div class="form-group">
   			<label for="formGroupExampleInput2">Tipo</label>
-  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" placeholder="Link de imaen PNG">
+  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" value="<?php echo($tipo); ?>">
   		</div>
   		<div class="form-group">
   			<label for="formGroupExampleInput2">Imagen</label>
-  			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" placeholder="Link de imagen PNG">
+  			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" value="<?php echo($imagen); ?>">
   		</div>
   		<div class="form-group">
   			<label for="formGroupExampleInput2">Genero</label>
-  			<input type="text" name="genero" class="form-control" id="formGroupExampleInput2" placeholder="Link de imagen PNG">
+  			<input type="text" name="genero" class="form-control" id="formGroupExampleInput2" value="<?php echo($genero); ?>">
   		</div>
-  		<input type="submit" class="btn btn-primary" name="btnAgregar" value="Agregar">
+  		<input type="submit" class="btn btn-primary" name="btnGuardar" value="Guardar">
   		<a href="index.php" class="btn btn-outline-dark">Regresar</a>
   	</form>
 
@@ -59,7 +71,7 @@
 
 
   <?php 
-		if (isset($_POST['btnAgregar'])) {
+		if (isset($_POST['btnGuardar'])) {
 
 		  	$nombre = $_POST['nombre'];
 		  	$tipo = $_POST['tipo'];
@@ -67,10 +79,10 @@
 		  	$genero = $_POST['genero'];
 
 
-		  	$sql = "INSERT INTO pokemon (nombre, tipo, genero, imagen) values ('$nombre','$tipo','$genero','$imagen');";
+		  	$sql = "UPDATE pokemon set tipo='$tipo', genero='$genero', imagen='$imagen' where nombre='$nombre';";
         if ($nombre!="") {
   		  	$conn->query($sql);
-  		  	echo "<script> alert('Se agrego son exito!');</script>";   
+  		  	echo "<script> alert('Se Modifico!');</script>";   
         }
 	  	}
 

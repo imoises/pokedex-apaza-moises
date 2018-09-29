@@ -96,7 +96,7 @@
                     <div class='col col-lg-2 p-3 mb-2 bg-secondary text-white'>".
                       "<img src=".$rows['imagen']." width=150px height=150px>" .
                     "</div>
-                    <div class='col-md-auto p-3 mb-2 bg-primary text-white'>".
+                    <div class='col-md-auto p-3 mb-2 bg-secondary text-white'>".
                       $rows['nombre'].
                       "<br><img src=".$rows['tipo']." width=60px height=30px>".
                       "<br><img src=".$rows['genero']." width=30px height=30px>"."
