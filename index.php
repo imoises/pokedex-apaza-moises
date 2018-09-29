@@ -15,10 +15,6 @@
     header("location: agregar.php");
   }
 
-  if (isset($_POST['btnModificar'])) {
-    header("location: modificar.php");
-  }
-
 ?>
 
 
@@ -50,7 +46,6 @@
           <div class="input-group-append" id="button-addon4">
             <input type="submit" class="btn btn-primary" name="btnBuscar" value="Buscar">
             <input type="submit" class="btn btn-outline-secondary" name="btnAgregar" value="Agregar">
-            <input type="submit" class="btn btn-outline-danger" name="btnModificar" value="Modificar">
           </div>  
         </div>
       </div>
@@ -96,16 +91,20 @@
           $sql = "Select * from pokemon;";
           $result = $conn->query($sql);
           while ($rows = $result->fetch_assoc()) {
-            echo "<div>_</div>
+                echo "<div>_</div>
                   <div class='row justify-content-md-center'>
                     <div class='col col-lg-2 p-3 mb-2 bg-secondary text-white'>".
                       "<img src=".$rows['imagen']." width=150px height=150px>" .
                     "</div>
-                    <div class='col-md-auto p-5 mb-2 bg-primary text-white'>
-                      ".$rows['nombre']."
+                    <div class='col-md-auto p-3 mb-2 bg-secondary text-white'>".
+                      $rows['nombre'].
+                      "<br><img src=".$rows['tipo']." width=60px height=30px>".
+                      "<br><img src=".$rows['genero']." width=30px height=30px>"."
                     </div>
+                    <div class='col col-lg-1 p-2 mb-2 text-white'>".
+                      "<br><a href='modificar.php?pokemon=".$rows['nombre']."'"." class='btn btn-danger btn-sm'>Modificar</a><br>HOLA".
+                    "</div>
                   </div>";
-
           }
         }
       }

@@ -11,8 +11,16 @@
     die("fallo la coneccion ".$conn->connect_error);
   }
 
-  if (isset($_POST['btnAgregar'])) {
-    header("location: agregar.php");
+  if (isset($_GET['pokemon'])) {
+  	$pokemon = $_GET['pokemon'];
+  	$sql = "select * from pokemon where nombre='$pokemon';";
+  	$result = $conn->query($sql);
+  	while ($rows = $result->fetch_assoc()) {
+  		$imagen = $rows['imagen'];
+  		$nombre = $rows['nombre'];
+  		$tipo = $rows['tipo'];
+  		$genero = $rows['genero'];
+  	}
   }
 
 ?>
@@ -29,7 +37,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-  <title>buscar</title>
+  <title>Modificar</title>
 </head>
 <body>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-outo text-center">
@@ -37,41 +45,53 @@
   </div>
 
   <div class="container">
-    <form action="modificar.php" method="POST">
-      <div class="input-group row">
-        <div class="input-group col-sm-8"">
-        	<a href="index.php" class="btn btn-outline-success">Regresar</a>
-        </div>
-      </div>
-    </form>
+  	<form action="modificar.php" method="POST" class="container">
+  		<div class="form-group">
+  			<label for="formGroupExampleInput">Nombre</label>
+  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" value="<?php echo($nombre); ?>">
+  		</div>
+  		<div class="form-group">
+  			<label for="formGroupExampleInput2">Tipo</label>
+  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" value="<?php echo($tipo); ?>">
+  		</div>
+  		<div class="form-group">
+  			<label for="formGroupExampleInput2">Imagen</label>
+  			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" value="<?php echo($imagen); ?>">
+  		</div>
+  		<div class="form-group">
+  			<label for="formGroupExampleInput2">Genero</label>
+  			<input type="text" name="genero" class="form-control" id="formGroupExampleInput2" value="<?php echo($genero); ?>">
+  		</div>
+  		<input type="submit" class="btn btn-primary" name="btnGuardar" value="Guardar">
+  		<a href="index.php" class="btn btn-outline-dark">Regresar</a>
+  	</form>
+
+  </div>
 
 
-    <div class="text-center"> _____________________ </div>
+
+  <?php 
+		if (isset($_POST['btnGuardar'])) {
+
+		  	$nombre = $_POST['nombre'];
+		  	$tipo = $_POST['tipo'];
+		  	$imagen = $_POST['img'];
+		  	$genero = $_POST['genero'];
 
 
-    <?php 
-      
-		$sql = "Select * from pokemon;";
-		$result = $conn->query($sql);
-		while ($rows = $result->fetch_assoc()) {
-                echo "<div>_</div>
-                  <div class='row justify-content-md-center'>
-                    <div class='col col-lg-2 p-3 mb-2 bg-secondary text-white'>".
-                      "<img src=".$rows['imagen']." width=150px height=150px>" .
-                    "</div>
-                    <div class='col-md-auto p-3 mb-2 bg-primary text-white'>".
-                      $rows['nombre'].
-                      "<br><img src=".$rows['tipo']." width=60px height=30px>".
-                      "<br><img src=".$rows['genero']." width=30px height=30px>"."
-                    </div>
-                    <div class='col col-lg-1 p-2 mb-2 text-white'>".
-                      "<br><a href='modificar.php?pokemon=".$rows['nombre']."'"." class='btn btn-danger btn-sm'>Modificar</a>".
-                    "</div>
-                  </div>";
+		  	$sql = "UPDATE pokemon set tipo='$tipo', genero='$genero', imagen='$imagen' where nombre='$nombre';";
+        if ($nombre!="") {
+  		  	$conn->query($sql);
+  		  	echo "<script> alert('Se Modifico!');</script>";   
         }
+	  	}
 
-      $conn->close();
-      ?>
+	 	if (isset($_POST["btnRegresar"])) {
+	  		header("location:index.php");
+  		}
+
+  		$conn->close();
+  ?>
 
 
     
