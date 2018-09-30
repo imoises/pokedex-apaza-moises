@@ -102,7 +102,8 @@
                       "<br><img src=".$rows['genero']." width=30px height=30px>"."
                     </div>
                     <div class='col col-lg-1 p-2 mb-2 text-white'>".
-                      "<br><a href='modificar.php?pokemon=".$rows['nombre']."'"." class='btn btn-danger btn-sm'>Modificar</a><br>HOLA".
+                      "<br><a href='modificar.php?pokemon=".$rows['nombre']."'"." class='btn btn-danger btn-sm'>Modificar</a>".
+                      "<br><a href='borrar.php?borraPokemon=".$rows['nombre']."'"." class='btn btn-dark btn-sm'>Borrar</a>".
                     "</div>
                   </div>";
           }
