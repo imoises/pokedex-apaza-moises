@@ -1,14 +1,9 @@
 <?php 
 
-  $host = "localhost";
-  $user = "root";
-  $password = "";
-  $bd = "pokemons";
-
-  $conn = new mysqli($host, $user, $password, $bd);
-  error_reporting(0);
-  if ($conn->connect_error) {
-    die("fallo la coneccion ".$conn->connect_error);
+  session_start();
+  require('config.php');
+  if (!isset($_SESSION['usuario'])) {
+    header('location: login.php');
   }
 
   if (isset($_GET['pokemon'])) {
@@ -19,7 +14,6 @@
   		$imagen = $rows['imagen'];
   		$nombre = $rows['nombre'];
   		$tipo = $rows['tipo'];
-  		$genero = $rows['genero'];
   	}
   }
 
@@ -40,61 +34,56 @@
   <title>Modificar</title>
 </head>
 <body>
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-outo text-center">
-     <h1>MODIFICAR POKEDEX</h1> 
-  </div>
-
   <div class="container">
-  	<form action="modificar.php" method="POST" class="container">
-  		<div class="form-group">
-  			<label for="formGroupExampleInput">Nombre</label>
-  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" value="<?php echo($nombre); ?>">
-  		</div>
-  		<div class="form-group">
-  			<label for="formGroupExampleInput2">Tipo</label>
-  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" value="<?php echo($tipo); ?>">
-  		</div>
-  		<div class="form-group">
-  			<label for="formGroupExampleInput2">Imagen</label>
-  			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" value="<?php echo($imagen); ?>">
-  		</div>
-  		<div class="form-group">
-  			<label for="formGroupExampleInput2">Genero</label>
-  			<input type="text" name="genero" class="form-control" id="formGroupExampleInput2" value="<?php echo($genero); ?>">
-  		</div>
-  		<input type="submit" class="btn btn-primary" name="btnGuardar" value="Guardar">
-  		<a href="index.php" class="btn btn-outline-dark">Regresar</a>
-  	</form>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-outo text-center">
+       <h1>MODIFICAR POKEDEX</h1> 
+    </div>
 
-  </div>
+    <div class="container">
+    	<form action="modificar.php" method="POST" class="container">
+    		<div class="form-group">
+    			<label for="formGroupExampleInput">Nombre</label>
+    			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" value="<?php echo($nombre); ?>">
+    		</div>
+    		<div class="form-group">
+    			<label for="formGroupExampleInput2">Tipo</label>
+    			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" value="<?php echo($tipo); ?>">
+    		</div>
+    		<div class="form-group">
+    			<label for="formGroupExampleInput2">Imagen</label>
+    			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" value="<?php echo($imagen); ?>">
+    		</div>
+    		<input type="submit" class="btn btn-primary" name="btnGuardar" value="Guardar">
+    		<a href="index.php" class="btn btn-outline-dark">Regresar</a>
+    	</form>
 
-
-
-  <?php 
-		if (isset($_POST['btnGuardar'])) {
-
-		  	$nombre = $_POST['nombre'];
-		  	$tipo = $_POST['tipo'];
-		  	$imagen = $_POST['img'];
-		  	$genero = $_POST['genero'];
+    </div>
 
 
-		  	$sql = "UPDATE pokemon set tipo='$tipo', genero='$genero', imagen='$imagen' where nombre='$nombre';";
-        if ($nombre!="") {
-  		  	$conn->query($sql);
-  		  	echo "<script> alert('Se Modifico!');</script>";   
-        }
-	  	}
 
-	 	if (isset($_POST["btnRegresar"])) {
-	  		header("location:index.php");
-  		}
+    <?php 
+  		if (isset($_POST['btnGuardar'])) {
 
-  		$conn->close();
-  ?>
+  		  	$nombre = $_POST['nombre'];
+  		  	$tipo = $_POST['tipo'];
+  		  	$imagen = $_POST['img'];
 
 
-    
+  		  	$sql = "UPDATE pokemon set tipo='$tipo', imagen='$imagen' where nombre='$nombre';";
+          if ($nombre!="") {
+    		  	$conn->query($sql);
+    		  	echo "<script> alert('Se Modifico!');</script>";
+            header("location: index.php");
+          }
+  	  	}
+
+  	 	if (isset($_POST["btnRegresar"])) {
+  	  		header("location:index.php");
+    		}
+
+    	$conn->close();
+    ?>
+
   </div>
 
   <!-- Optional JavaScript -->

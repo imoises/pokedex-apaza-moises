@@ -1,18 +1,10 @@
 <?php 
 	
-	$host = "localhost";
-	$usuario = "root";
-	$password = "";
-	$bd = "pokemons";
-
-	$conn = new mysqli($host, $usuario, $password, $bd);
-
-	error_reporting(0);
-
-	if ($conn->connect_error) {
-		echo "Fallo la coneccion.";
-		exit();
-	}
+	session_start();
+  require('config.php');
+  if (!isset($_SESSION['usuario'])) {
+    header('location: login.php');
+  }
 
  ?>
 
@@ -38,19 +30,15 @@
   	<form action="agregar.php" method="POST" class="container">
   		<div class="form-group">
   			<label for="formGroupExampleInput">Nombre</label>
-  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" placeholder="Pikachu">
+  			<input type="text" name="nombre" class="form-control" id="formGroupExampleInput" placeholder="ej. Pikachu">
   		</div>
   		<div class="form-group">
   			<label for="formGroupExampleInput2">Tipo</label>
-  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" placeholder="Link de imaen PNG">
+  			<input type="text" name="tipo" class="form-control" id="formGroupExampleInput2" placeholder="ej. Electrico">
   		</div>
   		<div class="form-group">
   			<label for="formGroupExampleInput2">Imagen</label>
   			<input type="text" name="img" class="form-control" id="formGroupExampleInput2" placeholder="Link de imagen PNG">
-  		</div>
-  		<div class="form-group">
-  			<label for="formGroupExampleInput2">Genero</label>
-  			<input type="text" name="genero" class="form-control" id="formGroupExampleInput2" placeholder="Link de imagen PNG">
   		</div>
   		<input type="submit" class="btn btn-primary" name="btnAgregar" value="Agregar">
   		<a href="index.php" class="btn btn-outline-dark">Regresar</a>
@@ -66,10 +54,9 @@
 		  	$nombre = $_POST['nombre'];
 		  	$tipo = $_POST['tipo'];
 		  	$imagen = $_POST['img'];
-		  	$genero = $_POST['genero'];
 
 
-		  	$sql = "INSERT INTO pokemon (nombre, tipo, genero, imagen) values ('$nombre','$tipo','$genero','$imagen');";
+		  	$sql = "INSERT INTO pokemon (nombre, tipo, genero, imagen) values ('$nombre','$tipo','','$imagen');";
         if ($nombre!="") {
   		  	$conn->query($sql);
   		  	echo "<script> alert('Se agrego son exito!');</script>";   

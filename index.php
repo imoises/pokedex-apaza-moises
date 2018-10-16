@@ -1,23 +1,19 @@
 <?php 
-
-  $host = "localhost";
-  $user = "root";
-  $password = "";
-  $bd = "pokemons";
-
-  $conn = new mysqli($host, $user, $password, $bd);
-  error_reporting(0);
-  if ($conn->connect_error) {
-    die("fallo la coneccion ".$conn->connect_error);
-  }
+  session_start();
+  require('config.php');
 
   if (isset($_POST['btnAgregar'])) {
-    header("location: agregar.php");
+    if (isset($_SESSION['usuario'])) {
+      header("Location: agregar.php");
+    }
+    header("Location: login.php");
+  }
+  if (isset($_POST['btnCerrar'])) {
+    session_destroy();
+    header("Location: index.php");
   }
 
 ?>
-
-
 
 
 <!doctype html>
@@ -34,7 +30,15 @@
 </head>
 <body>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-outo text-center">
-     <h1>POKEDEX</h1> 
+     <h1>POKEDEX</h1>
+     <?php
+        if (isset($_SESSION['usuario'])) {
+          echo "<form action='index.php' method='POST'>
+                  <t class='text-success'>Sesion iniciado</t>
+                  <input type='submit' class='btn btn-link text-secondary' name='btnCerrar' value='Cerrar sesion'>
+                </form>";
+        }
+     ?>
   </div>
 
   <div class="container">
@@ -75,11 +79,8 @@
                     <div class='col-md-auto p-5 mb-2 bg-primary text-white'>".
                       $rows['nombre']."
                     </div>
-                    <div class='col col-lg-1 p-5 mb-2 bg-secondary text-white'>".
-                      "<img src=".$rows['tipo']." width=50px height=20px>".
-                    "</div>
-                    <div class='col col-lg-1 p-5 mb-2 bg-secondary text-white'>".
-                      "<img src=".$rows['genero']." width=30px height=30px>".
+                    <div class='col col-lg-2 p-5 mb-2 bg-secondary text-white'>".
+                      $rows['tipo'].
                     "</div>
                   </div>";
               }
@@ -98,9 +99,8 @@
                     "</div>
                     <div class='col-md-auto p-3 mb-2 bg-secondary text-white'>".
                       $rows['nombre'].
-                      "<br><img src=".$rows['tipo']." width=60px height=30px>".
-                      "<br><img src=".$rows['genero']." width=30px height=30px>"."
-                    </div>
+                      "<br><p class='text-white bg-dark'>".$rows['tipo']." </p>".
+                    "</div>
                     <div class='col col-lg-1 p-2 mb-2 text-white'>".
                       "<br><a href='modificar.php?pokemon=".$rows['nombre']."'"." class='btn btn-danger btn-sm'>Modificar</a>".
                       "<br><a href='borrar.php?borraPokemon=".$rows['nombre']."'"." class='btn btn-dark btn-sm'>Borrar</a>".
@@ -111,8 +111,8 @@
       }
 
       $conn->close();
-      ?>
 
+    ?>
 
     
   </div>
